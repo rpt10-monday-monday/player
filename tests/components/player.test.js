@@ -12,4 +12,4 @@ describe('<Player />', () => {
       expect(toJson(component)).toMatchSnapshot();
     })
   })
-})
+});
