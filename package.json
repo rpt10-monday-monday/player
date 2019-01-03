@@ -21,15 +21,18 @@
   },
   "homepage": "https://github.com/mistergravy/player#readme",
   "scripts": {
-    "test": "mocha",
+    "test": "jest",
     "build": "webpack --watch",
     "start": "nodemon ./server/app.js",
     "db:setup": "node mongoDB/seed.js"
   },
   "devDependencies": {
+    "babel-jest": "^23.6.0",
     "chai": "^4.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
+    "jest": "^22.4.4",
     "mocha": "^5.2.0"
   },
   "dependencies": {
