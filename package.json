@@ -20,11 +20,14 @@
     "url": "https://github.com/mistergravy/player/issues"
   },
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "setupTestFrameworkScriptFile": "./tests/setup/setupEnzyme.js",
+    "testPathIgnorePatterns": ["./tests/setup/"],
+    "testURL": "http://localhost"
   },
   "homepage": "https://github.com/mistergravy/player#readme",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "build": "webpack --watch",
     "start": "nodemon ./server/app.js",
     "db:setup": "node mongoDB/seed.js"
