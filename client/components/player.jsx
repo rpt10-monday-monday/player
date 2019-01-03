@@ -1,9 +1,10 @@
 import React from 'react';
+import ReactAudioPlayer from 'react-audio-player';
+export default class Player extends React.Component {
+  render() {
+    return (
+      <ReactAudioPlayer controls/>
+    )
+  }
+}
 
-const Player = () => (
-  <div>
-    <h1>This is the Player</h1>
-  </div>
-)
-
-export default Player;
