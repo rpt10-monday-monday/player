@@ -19,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/mistergravy/player/issues"
   },
+  "jest": {
+    "snapshotSerializers": ["enzyme-to-json/serializer"]
+  },
   "homepage": "https://github.com/mistergravy/player#readme",
   "scripts": {
     "test": "jest",
