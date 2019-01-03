@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
-const db = mongoose.connect('mongodb://localhost/songs');
+mongoose.connect('mongodb://localhost/songs');
+const db = mongoose.connection;
 
 module.exports = db;
