@@ -21,11 +21,13 @@
   },
   "homepage": "https://github.com/mistergravy/player#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --watch",
-    "start": "nodemon ./server/app.js"
+    "start": "nodemon ./server/app.js",
+    "db:setup": "node mongoDB/seed.js"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "faker": "^4.1.0"
+  },
   "dependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
