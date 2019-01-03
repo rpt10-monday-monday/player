@@ -21,12 +21,7 @@ const createSongs = () => {
 }
 
 const seedDB = () => {
-  return new Promise((resolve, reject) => {
-      resolve(createSongs());
-  }).then((songs) => {
-    Song.create(songs)
-    .then(() => db.connection.close());
-  })
+  Song.create(createSongs())
+  .then(() => db.close());
 }
-
 seedDB();
