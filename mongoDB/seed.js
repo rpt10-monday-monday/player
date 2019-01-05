@@ -6,11 +6,10 @@ const createSongs = () => {
   let songList = [];
   for (let i = 0; i < 100; i++) {
     let song = {
+      songID: i,
       title: faker.random.words(),
       artist: faker.name.findName(),
-      length: Math.floor(Math.random() * (480 - 180) + 180),
-      album: faker.random.words(),
-      order: Math.floor(Math.random() * (14 - 5) + 5),
+      songURL: faker.image.imageUrl(),
       imageURL: faker.image.imageUrl()
     };
     songList.push(song);

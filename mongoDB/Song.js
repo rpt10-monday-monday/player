@@ -4,12 +4,11 @@ const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 const songSchema = new Schema({
+  songID: Number,
   title: String,
   artist: String,
-  length: Number,
-  album: String,
-  order: Number,
-  imageURL: String,
+  songURL: String,
+  imageURL: String
 },
   {
     timestamps: true
