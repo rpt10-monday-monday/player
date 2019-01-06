@@ -14,12 +14,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.listen(port, () => {
   console.log(`server running at: http://localhost:${port}`);
 });
-app.post('/song', (req, res) => {
-  console.log(req.body)
-  res.status(200).send('yo')
-})
+
 app.get('/song', (req, res) => {
-  Songs.find({ songID: 1 })
+  Songs.find({ songID: 2 })
     .then((song) => {
       return new Promise((resolve, reject) => {
         resolve(song)

@@ -7,38 +7,41 @@ export default class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      songID: '',
       songURL: ''
     }
   }
   componentDidMount() {
-    this.postSong();
+    // this.postSong();
     this.getCurrentSong();
   }
+  componentDidUpdate() {
 
-  postSong() {
-    let body = {
-      songID: 1
-    }
-
-    axios.post('/song', body)
-      .then((res) => {
-        console.log(`${res} was posted`)
-      })
-      .catch((err) => {
-        console.log(`There was an error posting ${err}`)
-      })
   }
+  // postSong() {
+  //   let body = {
+  //     songID: 1
+  //   }
+
+  //   axios.post('/song', body)
+  //     .then((res) => {
+  //       console.log('The post response is', res)
+  //     })
+  //     .catch((err) => {
+  //       console.log('There was an error posting', err)
+  //     })
+  // }
 
   getCurrentSong() {
     axios.get('http://localhost:3002/song')
       .then((res) => {
-        console.log(`${res} is the response`)
+        let songURL = res.data[0].songURL;
+          this.setState({
+            songURL: songURL
+          })
       })
       .catch((err) => {
-        console.log(`There was an error getting ${err}`)
+        console.log('There was an error getting', err)
       })
-
   }
 
   render() {
@@ -47,7 +50,7 @@ export default class Player extends React.Component {
       {/* put buttons here for testing each song */}
         <ReactAudioPlayer
           src={mp3}
-          autoPlay={true}
+          autoPlay
           controls
           onPlay={e => this.getCurrentSong(e)}
           onPause={e => this.getCurrentSong(e)}
