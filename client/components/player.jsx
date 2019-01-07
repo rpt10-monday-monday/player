@@ -11,25 +11,8 @@ export default class Player extends React.Component {
     }
   }
   componentDidMount() {
-    // this.postSong();
     this.getCurrentSong();
   }
-  componentDidUpdate() {
-
-  }
-  // postSong() {
-  //   let body = {
-  //     songID: 1
-  //   }
-
-  //   axios.post('/song', body)
-  //     .then((res) => {
-  //       console.log('The post response is', res)
-  //     })
-  //     .catch((err) => {
-  //       console.log('There was an error posting', err)
-  //     })
-  // }
 
   getCurrentSong() {
     axios.get('http://localhost:3002/song')
