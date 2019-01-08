@@ -9,6 +9,8 @@ import styled from 'styled-components';
 const PlayInfo = styled.div`
   display: inline-block;
   padding: 10px;
+  margin-left: 20px;
+  align: center;
 `
 
 export default class Controls extends React.Component {
@@ -16,6 +18,7 @@ export default class Controls extends React.Component {
     super(props)
     this.state = {
       play: false,
+
     }
   }
 
@@ -23,6 +26,11 @@ export default class Controls extends React.Component {
     this.setState({
       play: true
     })
+
+  }
+
+  componentDidMount() {
+    // console.log(this.audio.duration)
   }
 
   playSong() {
@@ -37,6 +45,7 @@ export default class Controls extends React.Component {
         play: true
       });
       this.audio.play();
+
     }
   }
 
@@ -45,7 +54,8 @@ export default class Controls extends React.Component {
       <PlayInfo>
         <audio src={this.props.song}
               ref={(audio) => { this.audio = audio}}
-              autoPlay
+
+              autoPlay={true}
         />
         <div onClick={this.playSong.bind(this)}><FontAwesomeIcon icon={!this.state.play ? faPlayCircle : faPauseCircle}/></div>
       </PlayInfo>
