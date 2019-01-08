@@ -12,7 +12,3 @@ test('Player renders', () => {
   const wrapper = shallow(<Player />)
   expect(wrapper).toMatchSnapshot();
 })
-
-test('true === true', () => {
-  expect(true).toBeTruthy();
-})
