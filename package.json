@@ -19,12 +19,38 @@
   "bugs": {
     "url": "https://github.com/mistergravy/player/issues"
   },
+  "jestWebpackResolver": {
+    "silent": true,
+    "webpackConfig": "./webpack.config.js"
+  },
   "jest": {
     "setupTestFrameworkScriptFile": "./tests/setup/setupEnzyme.js",
     "testPathIgnorePatterns": [
       "./tests/setup/"
     ],
-    "testURL": "http://localhost"
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "testURL": "http://localhost",
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "client",
+      ".",
+      "node_modules",
+      "bower_components",
+      "shared"
+    ],
+    "modulePaths": [
+      "/shared/vendor/modules"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    },
+    "resolver": "jest-webpack-resolver"
   },
   "homepage": "https://github.com/mistergravy/player#readme",
   "scripts": {
@@ -44,6 +70,7 @@
     "file-loader": "^3.0.1",
     "jest": "^22.4.4",
     "jest-styled-components": "^6.3.1",
+    "jest-webpack-resolver": "^0.3.0",
     "mocha": "^5.2.0",
     "react-test-renderer": "^16.7.0",
     "style-loader": "^0.23.1",
