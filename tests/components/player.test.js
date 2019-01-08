@@ -8,23 +8,11 @@ import toJson from 'enzyme-to-json';
 
 import Player from '../../client/components/player.jsx';
 
-// describe('<Player />', () => {
-//   describe('render()', () => {
-//   test('renders the component', () => {
-//     const wrapper = shallow(<Player />);
-//     expect(wrapper).toMatchSnapshot();
-//     })
-//   })
-// });
-// describe('Player', () => {
-//   test('it renders', () => {
-//     const wrapper = shallow(<Player />)
-//     expect(wrapper).toMatchSnapshot();
-//     // expect(true).toBeTruthy();
-//   })
-// })
-
 test('Player renders', () => {
   const wrapper = shallow(<Player />)
   expect(wrapper).toMatchSnapshot();
+})
+
+test('true === true', () => {
+  expect(true).toBeTruthy();
 })

@@ -66,7 +66,6 @@ export default class Player extends React.Component {
   }
 
   render() {
-    console.log(this.state.songURL)
     return (
       <Wrapper>
         <Track>
