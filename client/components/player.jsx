@@ -4,8 +4,10 @@ import AudioPlayer from 'react-h5-audio-player';
 import axios from 'axios';
 import styled from 'styled-components';
 import './controls.css';
-// const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
+
+const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
 const test = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3'
+
 
 
 const StyledAudioPlayer = styled(AudioPlayer)`
@@ -48,10 +50,11 @@ export default class Player extends React.Component {
   }
   componentDidMount() {
     this.getCurrentSong();
+
   }
 
   getCurrentSong() {
-    axios.get('http://localhost:3002/song')
+    axios.get('http://127.0.0.1:3002/song')
     .then((res) => {
       this.setState({
         songURL: res.data[0].songURL,

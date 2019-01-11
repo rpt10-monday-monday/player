@@ -1,58 +1,57 @@
-// const AWS = require('aws-sdk');
+const Promise = require('bluebird');
+const AWS = require('aws-sdk');
 
-// AWS.config.update({region: 'us-east-2'})
-
-// var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
-
-// var queueURL = "https://sqs.us-east-2.amazonaws.com/021058984666/song-queue";
-
-// var params = {
-//  AttributeNames: [
-//     "SentTimestamp"
-//  ],
-//  MaxNumberOfMessages: 1,
-//  MessageAttributeNames: [
-//     "All"
-//  ],
-//  QueueUrl: queueURL,
-//  VisibilityTimeout: 20,
-//  WaitTimeSeconds: 0
-// };
-
-// sqs.receiveMessage(params, function(err, data) {
-//   if (err) {
-//     console.log("Receive Error", err);
-//   } else if (data.Messages) {
-//     var deleteParams = {
-//       QueueUrl: queueURL,
-//       ReceiptHandle: data.Messages[0].ReceiptHandle
-//     };
-//     console.log(data.Messages);
-//     sqs.deleteMessage(deleteParams, function(err, data) {
-//       if (err) {
-//         console.log("Delete Error", err);
-//       } else {
-//         console.log("Message Deleted", data);
-//       }
-//     });
-//   }
-// });
-
-const Consumer = require('sqs-consumer');
-
-const app = Consumer.create({
-  queueUrl: 'https://sqs.us-east-2.amazonaws.com/021058984666/song-queue',
-  handleMessage: async (message) => {
-    console.log(message);
+var sqs = new AWS.SQS({
+  apiVersion: '2012-11-05',
+  region: 'us-east-2',
+  params: {
+    AttributeNames: [
+      "SentTimestamp"
+   ],
+   MaxNumberOfMessages: 1,
+   MessageAttributeNames: [
+      "All"
+   ],
+   QueueUrl: "https://sqs.us-east-2.amazonaws.com/021058984666/song-queue",
+   VisibilityTimeout: 30,
+   WaitTimeSeconds: 0
   }
-});
+  }
+);
 
-app.on('error', (err) => {
-  console.error(err.message);
-});
+let receiveMessage = Promise.promisify(sqs.receiveMessage, {context: sqs});
+let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
 
-app.on('processing_error', (err) => {
-  console.error(err.message);
-});
 
-app.start();
+(pollQueue = () => {
+  console.log("Starting long poll operation");
+
+  receiveMessage({
+    WaitTimeSeconds: 2,
+    VisibilityTimeout: 20
+  })
+  .then( (data) => {
+    console.log("Message", data.Messages);
+    if(!data.Messages) {
+      throw(
+        new Error("There are no messages in the queue")
+      )
+    }
+    return(
+      deleteMessage({
+        ReceiptHandle: data.Messages[0].ReceiptHandle
+      })
+    )
+  })
+  .then( (data) => {
+    console.log("Message deleted!");
+  })
+  .catch(
+    (err) => {
+      console.log(err.message);
+    }
+  )
+  .finally(pollQueue);
+})();
+
+
