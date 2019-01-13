@@ -7,6 +7,8 @@ import './controls.css';
 
 const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
 const test = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3'
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:3002');
 
 
 
@@ -46,13 +48,25 @@ export default class Player extends React.Component {
       songURL: '',
       songTitle: '',
       songArtist: ''
+      // queue: somefunctioncall()
     }
+    this.registerHandler = this.registerHandler.bind(this);
   }
   componentDidMount() {
-    this.getCurrentSong();
-
+    this.registerHandler()
   }
 
+  registerHandler(msg) {
+
+    socket.on('message', (msg) => {
+      console.log('message received in client', msg);
+      this.setState({
+        songURL: msg
+      })
+    });
+  }
+
+  // component updates after seeing a new entry
   getCurrentSong() {
     axios.get('http://127.0.0.1:3002/song')
     .then((res) => {

@@ -101,7 +101,10 @@
     "react-h5-audio-player": "^1.1.0",
     "react-player": "^1.8.0",
     "react-responsive-audio-player": "^1.5.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "sqs-consumer": "^4.0.0",
+    "sqs-producer": "^1.6.2",
     "styled-components": "^4.1.3",
     "webpack": "^3.11.0"
   }

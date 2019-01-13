@@ -1,21 +1,20 @@
 const Promise = require('bluebird');
 const AWS = require('aws-sdk');
 
+
 var sqs = new AWS.SQS({
-  apiVersion: '2012-11-05',
-  region: 'us-east-2',
-  params: {
-    AttributeNames: [
-      "SentTimestamp"
-   ],
-   MaxNumberOfMessages: 1,
-   MessageAttributeNames: [
-      "All"
-   ],
-   QueueUrl: "https://sqs.us-east-2.amazonaws.com/021058984666/song-queue",
-   VisibilityTimeout: 30,
-   WaitTimeSeconds: 0
-  }
+    apiVersion: '2012-11-05',
+    region: 'us-east-2',
+    params: {
+      AttributeNames: [
+        "SentTimestamp"
+    ],
+      MaxNumberOfMessages: 1,
+      MessageAttributeNames: [
+        "All"
+    ],
+      QueueUrl: "https://sqs.us-east-2.amazonaws.com/021058984666/song-queue"
+    }
   }
 );
 
@@ -27,11 +26,19 @@ let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
   console.log("Starting long poll operation");
 
   receiveMessage({
-    WaitTimeSeconds: 2,
+    WaitTimeSeconds: 20,
     VisibilityTimeout: 20
   })
   .then( (data) => {
     console.log("Message", data.Messages);
+    // make a post call to db to put new data in db
+    // do some socket.io call that will send the message to react component
+    io.on('connection', s => {
+      console.error('sockiet.io connection error');
+      for (var t = 0; t < 3; t++) {
+        setTimeout(() => s.emit('message', data.Messages), 1000*t);
+      }
+    })
     if(!data.Messages) {
       throw(
         new Error("There are no messages in the queue")
