@@ -5,10 +5,9 @@ import axios from 'axios';
 import styled from 'styled-components';
 import './controls.css';
 
-const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
-const test = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/557257/wwy.mp3'
+// const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
+const test = 'https://s3.us-east-2.amazonaws.com/rpt10-mondaymonday-songs/Dream.mp3'
 const io = require('socket.io-client');
-const socket = io.connect('http://localhost:3002');
 
 
 
@@ -40,49 +39,41 @@ const Artist = styled.div`
   display: inline-block;
 `
 
+const socket = io.connect('http://localhost:3002');
+const registerHandler = (onMsgReceived) => {
+  socket.on('message', onMsgReceived);
+  socket.emit('register', onMsgReceived);
+}
 
 export default class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      songURL: '',
-      songTitle: '',
-      songArtist: ''
-      // queue: somefunctioncall()
+      songURL: null,
+      songTitle: null,
+      songArtist: null
     }
-    this.registerHandler = this.registerHandler.bind(this);
+    this.updateClient = this.updateClient.bind(this);
+    this.onMsgReceived = this.onMsgReceived.bind(this);
   }
   componentDidMount() {
-    this.registerHandler()
+    registerHandler(this.onMsgReceived);
   }
 
-  registerHandler(msg) {
-
-    socket.on('message', (msg) => {
-      console.log('message received in client', msg);
-      this.setState({
-        songURL: msg
-      })
-    });
+  onMsgReceived(data) {
+    this.updateClient(data);
   }
-
-  // component updates after seeing a new entry
-  getCurrentSong() {
-    axios.get('http://127.0.0.1:3002/song')
-    .then((res) => {
-      this.setState({
-        songURL: res.data[0].songURL,
-        songTitle: res.data[0].title,
-        songArtist: res.data[0].artist
-      })
-
+  updateClient(msg) {
+    console.log('this is the msg inside handleData', msg)
+    this.setState({
+      songURL: msg.songUrl,
+      songTitle: msg.songName,
+      songArtist: msg.songArtist
     })
-      .catch((err) => {
-        console.log('There was an error getting', err)
-      })
   }
 
   render() {
+
     return (
       <Wrapper>
         <Track>
@@ -94,7 +85,7 @@ export default class Player extends React.Component {
         </Track>
 
         <StyledAudioPlayer
-          src={test}
+          src={this.state.songURL}
           autoPlay
         />
       </Wrapper>
@@ -102,4 +93,3 @@ export default class Player extends React.Component {
     )
   }
 }
-

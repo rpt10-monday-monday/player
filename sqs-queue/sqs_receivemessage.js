@@ -22,7 +22,7 @@ let receiveMessage = Promise.promisify(sqs.receiveMessage, {context: sqs});
 let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
 
 
-(pollQueue = () => {
+pollQueue = () => {
   console.log("Starting long poll operation");
 
   receiveMessage({
@@ -30,15 +30,8 @@ let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
     VisibilityTimeout: 20
   })
   .then( (data) => {
-    console.log("Message", data.Messages);
     // make a post call to db to put new data in db
     // do some socket.io call that will send the message to react component
-    io.on('connection', s => {
-      console.error('sockiet.io connection error');
-      for (var t = 0; t < 3; t++) {
-        setTimeout(() => s.emit('message', data.Messages), 1000*t);
-      }
-    })
     if(!data.Messages) {
       throw(
         new Error("There are no messages in the queue")
@@ -59,6 +52,7 @@ let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
     }
   )
   .finally(pollQueue);
-})();
+};
+pollQueue();
 
 
