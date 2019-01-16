@@ -69,6 +69,7 @@
     "enzyme-adapter-react-16": "^1.7.1",
     "enzyme-to-json": "^3.3.5",
     "file-loader": "^3.0.1",
+    "grunt-aws-s3": "^2.0.0",
     "jest": "^22.4.4",
     "jest-styled-components": "^6.3.1",
     "jest-webpack-resolver": "^0.3.0",
@@ -101,7 +102,10 @@
     "react-h5-audio-player": "^1.1.0",
     "react-player": "^1.8.0",
     "react-responsive-audio-player": "^1.5.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
     "sqs-consumer": "^4.0.0",
+    "sqs-producer": "^1.6.2",
     "styled-components": "^4.1.3",
     "webpack": "^3.11.0"
   }

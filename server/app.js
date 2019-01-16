@@ -1,30 +1,121 @@
 const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+
+
 const morgan = require('morgan');
 const path = require('path');
-const app = express();
 const port = process.env.PORT || 3002;
 const bodyParser = require('body-parser');
+const Promise = require('bluebird');
+
+const AWS = require('aws-sdk');
 const Songs = require('../mongoDB/Song.js')
 
 
 
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
-app.listen(port, () => {
-  console.log(`server running at: http://localhost:${port}`);
+server.listen((port), () => {
+  console.log(`server is listening on PORT: ${port}`);
 });
 
-app.get('/song', (req, res) => {
-  Songs.find({ songID: 5 })
-    .then((song) => {
-      return new Promise((resolve, reject) => {
-        resolve(song)
-      })
-    .then(song => {
-      res.status(200).send(song);
-    })
+
+var sqs = new AWS.SQS({
+    apiVersion: '2012-11-05',
+    region: 'us-east-2',
+    params: {
+      AttributeNames: [
+        "SentTimestamp"
+    ],
+      MaxNumberOfMessages: 1,
+      MessageAttributeNames: [
+        "All"
+    ],
+      QueueUrl: "https://sqs.us-east-2.amazonaws.com/021058984666/song-queue"
+    }
+  }
+);
+
+let receiveMessage = Promise.promisify(sqs.receiveMessage, {context: sqs});
+let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
+
+let message = null;
+
+(pollQueue = () => {
+  console.log("Starting long poll operation");
+
+  receiveMessage({
+    WaitTimeSeconds: 20,
+    VisibilityTimeout: 20
   })
-})
+  .then( (data) => {
+    console.log("Message", data.Messages);
+    // make a post call to db to put new data in db
+    // do some socket.io call that will send the message to react component
+    if(data.Messages !== undefined) {
+      message = JSON.parse(data.Messages[0].Body);
+
+    }
+    if(!data.Messages) {
+      throw(
+        new Error("There are no messages in the queue")
+      )
+    }
+    return(
+      deleteMessage({
+        ReceiptHandle: data.Messages[0].ReceiptHandle
+      })
+    )
+  })
+  .then( (data) => {
+    console.log("Message deleted!");
+  })
+  .catch(
+    (err) => {
+      console.log(err.message);
+    }
+  )
+  .finally(pollQueue);
+})();
+
+// const handleRegister = (cb) => {
+//   return cb();
+// };
+
+io.on('connection', s => {
+  // s.on('register', handleRegister);
+  s.emit('message', message);
+  s.on('disconnect', () => {
+    console.log('user disconnected');
+  })
+});
+
+// app.get('/song', (req, res) => {
+//   console.log(req.body)
+//   Songs.find({ songID: 5 })
+//     .then((song) => {
+//       return new Promise((resolve, reject) => {
+//         resolve(song)
+//       })
+//     .then(song => {
+//       res.status(200).send(song);
+//     })
+//   })
+// })
+
+
+
+
+
+
+
+
+
+
