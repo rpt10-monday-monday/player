@@ -3,7 +3,7 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
-
+const cors = require('cors');
 
 
 const morgan = require('morgan');
@@ -16,7 +16,9 @@ const AWS = require('aws-sdk');
 const Songs = require('../mongoDB/Song.js')
 
 
-
+app.use(cors({
+  origin: "*"
+}));
 app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -85,9 +87,7 @@ let message = null;
   .finally(pollQueue);
 })();
 
-// const handleRegister = (cb) => {
-//   return cb();
-// };
+
 
 io.on('connection', s => {
   // s.on('register', handleRegister);
@@ -97,18 +97,6 @@ io.on('connection', s => {
   })
 });
 
-// app.get('/song', (req, res) => {
-//   console.log(req.body)
-//   Songs.find({ songID: 5 })
-//     .then((song) => {
-//       return new Promise((resolve, reject) => {
-//         resolve(song)
-//       })
-//     .then(song => {
-//       res.status(200).send(song);
-//     })
-//   })
-// })
 
 
 
