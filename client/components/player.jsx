@@ -66,9 +66,9 @@ export default class Player extends React.Component {
   updateClient(msg) {
     console.log('this is the msg inside handleData', msg)
     this.setState({
-      songURL: msg.songUrl,
-      songTitle: msg.songName,
-      songArtist: msg.songArtist
+      songURL: msg.file_url,
+      songTitle: msg.name,
+      songArtist: msg.artist
     })
   }
 

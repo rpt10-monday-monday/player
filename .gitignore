@@ -30,3 +30,5 @@ aws-keys.json
 sqs-queue/sqsConfig.js
 
 Gruntfile.js
+
+.elasticbeanstalk/
