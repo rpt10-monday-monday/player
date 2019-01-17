@@ -10,7 +10,7 @@
 
 .react-h5-audio-player .flex {
   background-color: #282828 !important;
-  display: fixed !important;
+  /* display: fixed !important; */
 }
 .react-h5-audio-player .flex .toggle-play-wrapper {
   flex: 1 0 60px;

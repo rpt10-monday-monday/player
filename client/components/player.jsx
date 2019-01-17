@@ -21,11 +21,11 @@ const StyledAudioPlayer = styled(AudioPlayer)`
 `
 const Wrapper = styled.section`
   width: 100%;
-
   background-color: #282828;
   color: #fff;
+  margin: 10px;
 `
-const Track = styled.div`
+const Track = styled.p`
   font-family: 'Noto Sans', sans-serif;
   padding: 2em;
   color: #fff;
@@ -64,30 +64,30 @@ export default class Player extends React.Component {
     this.updateClient(data);
   }
   updateClient(msg) {
-    console.log('this is the msg inside handleData', msg)
     this.setState({
       songURL: msg.file_url,
       songTitle: msg.name,
       songArtist: msg.artist
     })
+    console.log('this is the msg inside handleData', this.state)
   }
 
   render() {
 
     return (
       <Wrapper>
-        <Track>
-          {this.state.songTitle}
-          <br />
-          <Artist>
-          {this.state.songArtist}
-          </Artist>
-        </Track>
-
+      <div class="row">
+      <div class="col-sm-3">
+        <h2>{this.state.songTitle}</h2>
+        <h3>{this.state.songArtist}</h3>
+      </div>
+      <div class="col-lg-9">
         <StyledAudioPlayer
           src={this.state.songURL}
           autoPlay
         />
+      </div>
+      </div>
       </Wrapper>
 
     )
