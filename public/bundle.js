@@ -17518,7 +17518,7 @@ var Wrapper = _styledComponents2.default.section(_templateObject2);
 var Track = _styledComponents2.default.p(_templateObject3);
 var Artist = _styledComponents2.default.div(_templateObject4);
 
-var socket = io.connect('http://localhost:3002');
+var socket = io.connect('http://audioplayer-dev.us-east-2.elasticbeanstalk.com');
 var registerHandler = function registerHandler(onMsgReceived) {
   socket.on('message', onMsgReceived);
   socket.emit('register', onMsgReceived);
