@@ -76,12 +76,12 @@ export default class Player extends React.Component {
 
     return (
       <Wrapper>
-      <div class="row">
-      <div class="col-sm-3">
+      <div className="row">
+      <div className="col-sm-3">
         <h2>{this.state.songTitle}</h2>
         <h3>{this.state.songArtist}</h3>
       </div>
-      <div class="col-lg-9">
+      <div className="col-lg-9">
         <StyledAudioPlayer
           src={this.state.songURL}
           autoPlay
