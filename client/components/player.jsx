@@ -47,9 +47,9 @@ export default class Player extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      songURL: null,
-      songTitle: null,
-      songArtist: null
+      songURL: '',
+      songTitle: '',
+      songArtist: ''
     }
     this.updateClient = this.updateClient.bind(this);
     this.onMsgReceived = this.onMsgReceived.bind(this);
@@ -59,14 +59,19 @@ export default class Player extends React.Component {
   }
 
   onMsgReceived(data) {
-    this.updateClient(data);
+    if (data) {
+      this.updateClient(data);
+    }
+
   }
   updateClient(msg) {
-    this.setState({
-      songURL: msg.file_url,
-      songTitle: msg.name,
-      songArtist: msg.artist
-    })
+
+      this.setState({
+        songURL: msg.file_url,
+        songTitle: msg.name,
+        songArtist: msg.artist
+      })
+
     console.log('this is the msg inside handleData', this.state)
   }
 

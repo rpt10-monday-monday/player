@@ -50,47 +50,49 @@ let deleteMessage = Promise.promisify(sqs.deleteMessage, {context: sqs});
 
 let message = null;
 
-(pollQueue = () => {
-  console.log("Starting long poll operation");
+// (pollQueue = () => {
+//   console.log("Starting long poll operation");
 
-  receiveMessage({
-    WaitTimeSeconds: 20,
-    VisibilityTimeout: 20
-  })
-  .then( (data) => {
-    // make a post call to db to put new data in db
-    // do some socket.io call that will send the message to react component
-    if(data.Messages !== undefined) {
-      message = JSON.parse(data.Messages[0].Body);
+//   receiveMessage({
+//     WaitTimeSeconds: 20,
+//     VisibilityTimeout: 20
+//   })
+//   .then( (data) => {
+//     // make a post call to db to put new data in db
+//     // do some socket.io call that will send the message to react component
+//     if(data.Messages !== undefined) {
+//       message = JSON.parse(data.Messages[0].Body);
 
-    }
-    if(!data.Messages) {
-      throw(
-        new Error("There are no messages in the queue")
-      )
-    }
-    return(
-      deleteMessage({
-        ReceiptHandle: data.Messages[0].ReceiptHandle
-      })
-    )
-  })
-  .then( (data) => {
-    console.log("Message deleted!");
-  })
-  .catch(
-    (err) => {
-      console.log(err.message);
-    }
-  )
-  .finally(pollQueue);
-})();
+//     }
+//     if(!data.Messages) {
+//       throw(
+//         new Error("There are no messages in the queue")
+//       )
+//     }
+//     return(
+//       deleteMessage({
+//         ReceiptHandle: data.Messages[0].ReceiptHandle
+//       })
+//     )
+//   })
+//   .then( (data) => {
+//     console.log("Message deleted!");
+//   })
+//   .catch(
+//     (err) => {
+//       console.log(err.message);
+//     }
+//   )
+//   .finally(pollQueue);
+// })();
 
 
 
 io.on('connection', s => {
   // s.on('register', handleRegister);
-  s.emit('message', message);
+  if (message !== null || message !== undefined) {
+    s.emit('message', message);
+  }
   s.on('disconnect', () => {
     console.log('user disconnected');
   })
