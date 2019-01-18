@@ -17513,12 +17513,15 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var io = __webpack_require__(92);
 
+// let port = process.env.PORT || 3002;
+
 var StyledAudioPlayer = (0, _styledComponents2.default)(_reactH5AudioPlayer2.default)(_templateObject);
 var Wrapper = _styledComponents2.default.section(_templateObject2);
 var Track = _styledComponents2.default.p(_templateObject3);
 var Artist = _styledComponents2.default.div(_templateObject4);
 
-var socket = io.connect('http://audioplayer-dev.us-east-2.elasticbeanstalk.com');
+var socket = io.connect('http://localhost:3002');
+
 var registerHandler = function registerHandler(onMsgReceived) {
   socket.on('message', onMsgReceived);
   socket.emit('register', onMsgReceived);

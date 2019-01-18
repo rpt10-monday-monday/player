@@ -68,6 +68,7 @@ let message = null;
     // make a post call to db to put new data in db
     // do some socket.io call that will send the message to react component
     if(data.Messages !== undefined) {
+      console.log(data.Messages);
       message = JSON.parse(data.Messages[0].Body);
 
     }
@@ -104,8 +105,6 @@ io.on('connection', s => {
     console.log('user disconnected');
   })
 });
-
-
 
 
 

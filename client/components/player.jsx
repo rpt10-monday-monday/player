@@ -5,9 +5,10 @@ import AudioPlayer from 'react-h5-audio-player';
 import styled from 'styled-components';
 import './controls.css';
 
+
 const io = require('socket.io-client');
 
-
+// let port = process.env.PORT || 3002;
 
 const StyledAudioPlayer = styled(AudioPlayer)`
   color: #b3b3b3;
@@ -37,7 +38,9 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-const socket = io.connect('http://audioplayer-dev.us-east-2.elasticbeanstalk.com');
+const socket = io.connect('http://localhost:3002');
+
+
 const registerHandler = (onMsgReceived) => {
   socket.on('message', onMsgReceived);
   socket.emit('register', onMsgReceived);
