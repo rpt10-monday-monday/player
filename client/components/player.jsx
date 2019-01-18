@@ -38,7 +38,7 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-const socket = io();
+const socket = io('http://audioplayer-dev.us-east-2.elasticbeanstalk.com/');
 
 
 const registerHandler = (onMsgReceived) => {
