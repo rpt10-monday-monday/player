@@ -37,11 +37,11 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-const socket = io.connect('http://localhost:3002');
-const registerHandler = (onMsgReceived) => {
-  socket.on('message', onMsgReceived);
-  socket.emit('register', onMsgReceived);
-}
+// const socket = io.connect('http://localhost:3002');
+// const registerHandler = (onMsgReceived) => {
+//   socket.on('message', onMsgReceived);
+//   socket.emit('register', onMsgReceived);
+// }
 
 export default class Player extends React.Component {
   constructor(props) {
@@ -55,24 +55,24 @@ export default class Player extends React.Component {
     this.onMsgReceived = this.onMsgReceived.bind(this);
   }
   componentDidMount() {
-    registerHandler(this.onMsgReceived);
+    // registerHandler(this.onMsgReceived);
   }
 
   onMsgReceived(data) {
-    if (data) {
-      this.updateClient(data);
-    }
+    // if (data) {
+    //   this.updateClient(data);
+    // }
 
   }
   updateClient(msg) {
 
-      this.setState({
-        songURL: msg.file_url,
-        songTitle: msg.name,
-        songArtist: msg.artist
-      })
+    //   this.setState({
+    //     songURL: msg.file_url,
+    //     songTitle: msg.name,
+    //     songArtist: msg.artist
+    //   })
 
-    console.log('this is the msg inside handleData', this.state)
+    // console.log('this is the msg inside handleData', this.state)
   }
 
   render() {
