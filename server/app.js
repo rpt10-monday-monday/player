@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 const Promise = require('bluebird');
 
 const AWS = require('aws-sdk');
-const Songs = require('../mongoDB/Song.js')
+
 
 
 app.use(cors({
@@ -58,7 +58,6 @@ let message = null;
     VisibilityTimeout: 20
   })
   .then( (data) => {
-    console.log("Message", data.Messages);
     // make a post call to db to put new data in db
     // do some socket.io call that will send the message to react component
     if(data.Messages !== undefined) {

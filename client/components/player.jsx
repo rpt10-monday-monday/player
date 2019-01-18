@@ -1,12 +1,10 @@
 import React from 'react';
 import Controls from './controls.jsx';
 import AudioPlayer from 'react-h5-audio-player';
-import axios from 'axios';
+
 import styled from 'styled-components';
 import './controls.css';
 
-// const mp3 = require('../files/CUE2_StereoMix_TC00014402.mp3');
-const test = 'https://s3.us-east-2.amazonaws.com/rpt10-mondaymonday-songs/Dream.mp3'
 const io = require('socket.io-client');
 
 

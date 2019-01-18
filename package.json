@@ -58,7 +58,6 @@
     "test:watch": "jest --watch",
     "build": "webpack --watch",
     "start": "nodemon ./server/app.js",
-    "db:setup": "node mongoDB/seed.js",
     "sqs_poll": "node ./sqs-queue/sqs_receivemessage.js"
   },
   "devDependencies": {
