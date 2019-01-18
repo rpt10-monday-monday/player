@@ -2,14 +2,14 @@ const express = require('express');
 let app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
+const morgan = require('morgan');
 app.use(cors({
   origin: "*"
 }));
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 // app.use(express.static(path.join(__dirname, '/../public')));
-app.use(express.static(__dirname + '/../public'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+
 
 
 const http = require('http');
@@ -17,20 +17,26 @@ let server = http.createServer(app);
 const io = require('socket.io').listen(server);
 
 
-// const morgan = require('morgan');
-// const path = require('path');
+
 let port = process.env.PORT || 3002;
 const Promise = require('bluebird');
 
 const AWS = require('aws-sdk');
 
 
-
-
 server.listen((port), () => {
   console.log(`server is listening on PORT: ${port}`);
 });
+app.get('/', (req, res) => {
+  console.log('in here')
+  res.sendFile(path.resolve('public/index.html'));
+})
 
+app.use(express.static(__dirname + '/../public'), () => {
+  console.log(`using ${__dirname}`)
+});
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 
 var sqs = new AWS.SQS({
