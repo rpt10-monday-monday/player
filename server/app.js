@@ -98,9 +98,9 @@ let message = null;
 
 io.on('connection', s => {
   // s.on('register', handleRegister);
-  if (message !== null || message !== undefined) {
-    s.emit('message', message);
-  }
+
+  s.emit('message', message);
+
   s.on('disconnect', () => {
     console.log('user disconnected');
   })
