@@ -1,14 +1,14 @@
 const express = require('express');
-const app = express();
+let app = express();
 const http = require('http');
-const server = http.createServer(app);
+let server = http.createServer(app);
 const io = require('socket.io').listen(server);
 const cors = require('cors');
 
 
 // const morgan = require('morgan');
-const path = require('path');
-const port = process.env.PORT || 3002;
+// const path = require('path');
+let port = process.env.PORT || 3002;
 const bodyParser = require('body-parser');
 const Promise = require('bluebird');
 
@@ -20,12 +20,13 @@ app.use(cors({
   origin: "*"
 }));
 // app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, '/../public')));
+// app.use(express.static(path.join(__dirname, '/../public')));
+app.use(express.static(__dirname + '/../public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-app.listen((port), () => {
+server.listen((port), () => {
   console.log(`server is listening on PORT: ${port}`);
 });
 
@@ -89,15 +90,15 @@ let message = null;
 
 
 
-// io.on('connection', s => {
-//   // s.on('register', handleRegister);
-//   if (message !== null || message !== undefined) {
-//     s.emit('message', message);
-//   }
-//   s.on('disconnect', () => {
-//     console.log('user disconnected');
-//   })
-// });
+io.on('connection', s => {
+  // s.on('register', handleRegister);
+  if (message !== null || message !== undefined) {
+    s.emit('message', message);
+  }
+  s.on('disconnect', () => {
+    console.log('user disconnected');
+  })
+});
 
 
 
