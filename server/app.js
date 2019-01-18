@@ -1,21 +1,7 @@
 const express = require('express');
 let app = express();
-const http = require('http');
-let server = http.createServer(app);
-const io = require('socket.io').listen(server);
 const cors = require('cors');
-
-
-// const morgan = require('morgan');
-// const path = require('path');
-let port = process.env.PORT || 3002;
 const bodyParser = require('body-parser');
-const Promise = require('bluebird');
-
-const AWS = require('aws-sdk');
-
-
-
 app.use(cors({
   origin: "*"
 }));
@@ -26,9 +12,25 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
+const http = require('http');
+let server = http.createServer(app);
+const io = require('socket.io').listen(server);
+
+
+// const morgan = require('morgan');
+// const path = require('path');
+let port = process.env.PORT || 3002;
+const Promise = require('bluebird');
+
+const AWS = require('aws-sdk');
+
+
+
+
 server.listen((port), () => {
   console.log(`server is listening on PORT: ${port}`);
 });
+
 
 
 var sqs = new AWS.SQS({
