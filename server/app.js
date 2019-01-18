@@ -24,13 +24,7 @@ const Promise = require('bluebird');
 const AWS = require('aws-sdk');
 
 
-server.listen((port), () => {
-  console.log(`server is listening on PORT: ${port}`);
-});
-app.get('/', (req, res) => {
-  console.log('in here')
-  res.sendFile(path.resolve('public/index.html'));
-})
+
 
 app.use(express.static(__dirname + '/../public'), () => {
   console.log(`using ${__dirname}`)
@@ -39,6 +33,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
+server.listen((port), () => {
+  console.log(`server is listening on PORT: ${port}`);
+});
 var sqs = new AWS.SQS({
     apiVersion: '2012-11-05',
     region: 'us-east-2',
