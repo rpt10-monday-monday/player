@@ -38,7 +38,7 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-const socket = io.connect('http://localhost:3002');
+const socket = io();
 
 
 const registerHandler = (onMsgReceived) => {
