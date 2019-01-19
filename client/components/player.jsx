@@ -8,7 +8,7 @@ import './controls.css';
 
 const io = require('socket.io-client');
 
-// let port = process.env.PORT || 3002;
+let port = process.env.PORT || 3002;
 
 const StyledAudioPlayer = styled(AudioPlayer)`
   color: #b3b3b3;
@@ -38,8 +38,8 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-// const socket = io('http://audioplayer-dev.us-east-2.elasticbeanstalk.com/', {transports: ['websocket']});
-const socket = io();
+const socket = io(`ws://audioplayer-dev.us-east-2.elasticbeanstalk.com:${port}/`, {transports: ['websocket']});
+
 
 
 const registerHandler = (onMsgReceived) => {
