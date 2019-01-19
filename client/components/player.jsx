@@ -70,14 +70,12 @@ export default class Player extends React.Component {
 
   }
   updateClient(msg) {
-
+    console.log('THIS IS THE MESSAGE: ', msg)
       this.setState({
         songURL: msg.songUrl,
         songTitle: msg.songName,
         songArtist: msg.songArtist
       })
-
-    console.log('this is the msg inside handleData', this.state)
   }
 
   render() {
