@@ -38,8 +38,8 @@ const Artist = styled.div`
   display: inline-block;
 `
 
-// const socket = io(`ws://audioplayer-dev.us-east-2.elasticbeanstalk.com/`, {transports: ['websocket']});
-const socket = io();
+const socket = io('ws://audioplayer-dev.us-east-2.elasticbeanstalk.com/', {transports: ['websocket']});
+// const socket = io();
 
 
 
@@ -72,9 +72,9 @@ export default class Player extends React.Component {
   updateClient(msg) {
 
       this.setState({
-        songURL: msg.file_url,
-        songTitle: msg.name,
-        songArtist: msg.artist
+        songURL: msg.songUrl,
+        songTitle: msg.songName,
+        songArtist: msg.songArtist
       })
 
     console.log('this is the msg inside handleData', this.state)
