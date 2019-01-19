@@ -39,7 +39,7 @@ const Artist = styled.div`
 `
 
 // const socket = io(`ws://audioplayer-dev.us-east-2.elasticbeanstalk.com/`, {transports: ['websocket']});
-const socket = io('ws://audioplayer-dev.us-east-2.elasticbeanstalk.com/');
+const socket = io();
 
 
 
